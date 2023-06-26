@@ -1,0 +1,4 @@
+// In synchronous code(run line by line) - only a single user is able to access it at once time to obtain data from server - iterative
+// If a user starts reading a file - no other user allowed to start until he finishes
+// In asynchronous code - multiple users are able to access it at once time to obtain data from server - parallel
+// If a user starts reading a file - other users are allowed to start reading other files

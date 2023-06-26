@@ -1,0 +1,1 @@
+Here's the async result : 1 lorem ipsum dolor, 2 lorem ipsum dolor sit ametAppending data to the file
