@@ -1,23 +1,16 @@
-const { readFile, writeFile } = require('fs');
-const util = require('util');
+const http = require('http');
+const fs = require('fs');
 
-const readFilePromise = util.promisify(readFile);
-const writeFilePromise = util.promisify(writeFile);
+http.createServer((req, res) => {
+  const fileStream = fs.createReadStream('./contents/big.txt', 'ascii');
+  fileStream.on('open', () => {
+    // pipe creates a writeStream of the corresponding readStream to write data in form of chunks   
+    fileStream.pipe(res);
+    // due to this the large data which by using writeFile would have been sent as a single large response is now sent in form of chunks 
+  })
+  fileStream.on('error', (err) => { 
+    res.end(err);
+  })
+}).listen(5000);
 
-const writeData = async (path) => {
-  const firstData = await readFilePromise("./contents/first.txt", 'ascii');
-  const secondData = await readFilePromise("./contents/second.txt", 'ascii');
-
-  console.log(firstData);
-  console.log(secondData);
-  writeFilePromise(
-    path,
-    `the data to be appended : ${firstData} & ${secondData}`,
-    { flag: "a" },
-      () => {
-      console.log("Why isnt this seen in console  in absense of flag?");
-    }
-  );
-};
-
-writeData("./contents/result-async.txt");
+console.log('server listening on localhost:5000');
